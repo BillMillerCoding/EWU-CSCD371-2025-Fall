@@ -111,7 +111,6 @@ public class BaseLoggerMixinsTests
 
 public class TestLogger : BaseLogger
 {
-    //public override string ClassName { get; set; } = nameof(TestLogger);
     public List<(LogLevel LogLevel, string Message)> LoggedMessages { get; } = new List<(LogLevel, string)>();
 
     public override void Log(LogLevel logLevel, string message)

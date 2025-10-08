@@ -14,7 +14,6 @@ namespace Logger.Tests
         [TestInitialize]
         public void Setup()
         {
-            // Initialize a new LogFactory instance before each test
             _logFactory = new LogFactory();
         }
 
@@ -35,7 +34,6 @@ namespace Logger.Tests
         public void CreateLogger_ReturnsFileLogger_WhenConfigured()
         {
             // Arrange
-            // Setup the logger with a temp file path.
             string tempFilePath = Path.GetTempFileName();
             File.Delete(tempFilePath);
             _logFactory.ConfigureFileLogger(tempFilePath);
@@ -44,12 +42,8 @@ namespace Logger.Tests
             var logger = _logFactory.CreateLogger(TestClassName);
 
             // Assert
-            // Check that the FIleLogger instance was returned.
             Assert.IsNotNull(logger, "Error: CreateLogger must return a logger instance after configuration.");
-            // Check that the returned instance is actually a FileLogger.
             Assert.IsTrue(logger is FileLogger, "Error: The returned logger instance must be of type FileLogger.");
-
-            // Cleanup
             File.Delete(tempFilePath);
         }
 
@@ -68,8 +62,6 @@ namespace Logger.Tests
             // Assert
             Assert.IsNotNull(logger, "Error: FileLogger should not be null.");
             Assert.AreEqual(expectedClassName, logger.ClassName, "Error: The ClassName of the FileLogger must match the name associated with CreateLogger.");
-
-            // Delete the temp file
             File.Delete(tempFilePath);
         }
 

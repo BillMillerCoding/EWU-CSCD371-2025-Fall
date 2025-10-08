@@ -13,7 +13,7 @@ namespace Logger
 
         public FileLogger(string path)
         {
-            ArgumentNullException.ThrowIfNull("path");
+            ArgumentNullException.ThrowIfNull(path);
             _filePath = path;
         }
 

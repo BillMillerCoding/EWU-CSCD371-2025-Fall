@@ -149,9 +149,8 @@ namespace Logger.Tests
         public void FileLogger_ThrowsException_IfClassNameIsNull()
         {
             // Arrange & Act
-            // Test that the class throws an exception when the required className is null
             _logFactory?.ConfigureFileLogger(_tempFilePath!);
-            Assert.ThrowsExactly<ArgumentNullException>(() => _logFactory?.CreateLogger(null!));
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory?.CreateLogger(null!));
             // Assert (Handled by attribute)
         }
     }

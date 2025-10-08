@@ -69,8 +69,42 @@ namespace Logger.Tests
         public void ConfigureFileLogger_ThrowsException_ForNullPath()
         {
             // Arrange & Act
-            Assert.ThrowsExactly<ArgumentNullException>(() => _logFactory.ConfigureFileLogger(null!));
-            // Assert (Handled by attribute)
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.ConfigureFileLogger(null!)); 
+        }
+
+        [TestMethod]
+        public void ConfigureFileLogger_ThrowsException_ForEmptyPath()
+        {
+            // Arrange & Act
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.ConfigureFileLogger(string.Empty));
+        }
+
+        [TestMethod]
+        public void ConfigureFileLogger_ThrowsException_ForWhitespacePath()
+        {
+            // Arrange & Act
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.ConfigureFileLogger("   "));
+        }
+
+        [TestMethod]
+        public void CreateLogger_ThrowsException_ForNullClassName()
+        {
+            // Act & Assert
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.CreateLogger(null!));
+        }
+
+        [TestMethod]
+        public void CreateLogger_ThrowsException_ForEmptyClassName()
+        {
+            // Act & Assert
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.CreateLogger(string.Empty));
+        }
+
+        [TestMethod]
+        public void CreateLogger_ThrowsException_ForWhitespaceClassName()
+        {
+            // Act & Assert
+            Assert.ThrowsExactly<ArgumentException>(() => _logFactory.CreateLogger("   "));
         }
     }
 }

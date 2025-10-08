@@ -13,7 +13,10 @@ namespace Logger
 
         public FileLogger(string path)
         {
-            ArgumentNullException.ThrowIfNull(path);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("File path cannot be null or empty.", nameof(path));
+            }
             _filePath = path;
         }
 

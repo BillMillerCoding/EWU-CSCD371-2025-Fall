@@ -1,7 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+
 using Logger;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Logger.Tests;
 
@@ -130,6 +134,29 @@ public class BaseLoggerMixinsTests
         Assert.AreEqual(expectedMessage, logger.LoggedMessages[0].Message);
     }
 
+    [TestMethod]
+    public void BaseLoggerMixins_Uses_InvariantCulture_For_Formatting()
+    {
+        // Arrange
+        var logger = new TestLogger();
+        string expectedMessage = "Value: 1234.57";
+        var originalCulture = Thread.CurrentThread.CurrentCulture;
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+
+        try
+        {
+            // Act
+            logger.Information("Value: {0}", 1234.57);
+
+            // Assert
+            Assert.AreEqual(1, logger.LoggedMessages.Count);
+            Assert.AreEqual(expectedMessage, logger.LoggedMessages[0].Message);
+
+        } finally
+        {
+            Thread.CurrentThread.CurrentCulture = originalCulture;
+        }
+    }
 }
 
 public class TestLogger : BaseLogger

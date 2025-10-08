@@ -17,8 +17,7 @@ namespace Logger
             _filePath = path;
         }
 
-        override
-        public void Log(LogLevel logLevel, string message)
+        public override void Log(LogLevel logLevel, string message)
         {
             string timeStamp = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture); //COME BACK TO THIS LINE WITH A BETTER UNDERSTANDING OF ClassName
             string logText = $"{timeStamp} {ClassName} {logLevel}: {message}";

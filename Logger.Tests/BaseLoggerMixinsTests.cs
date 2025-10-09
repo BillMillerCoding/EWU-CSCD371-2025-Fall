@@ -72,7 +72,6 @@ public class BaseLoggerMixinsTests
         Assert.AreEqual(expectedMessage, logger.LoggedMessages[0].Message);
     }
 
-    // Test Information
     [TestMethod]
     public void Information_WithNullLogger_ThrowsException()
     {
@@ -103,7 +102,6 @@ public class BaseLoggerMixinsTests
         Assert.AreEqual(expectedMessage, logger.LoggedMessages[0].Message);
     }
 
-    // Test Debug
     [TestMethod]
     public void Debug_WithNullLogger_ThrowsException()
     {

@@ -16,7 +16,6 @@ namespace Logger.Tests
         [TestInitialize]
         public void Setup()
         {
-            // Make temp file path and intialize LogFactory one time to check it
             _tempFilePath = Path.GetTempFileName();
             File.Delete(_tempFilePath);
             _logFactory = new LogFactory();
@@ -25,7 +24,6 @@ namespace Logger.Tests
         [TestCleanup]
         public void Cleanup()
         {
-            // Delete the temp file if it is not null or already deleted
             if (_tempFilePath != null && File.Exists(_tempFilePath))
             {
                 File.Delete(_tempFilePath);
@@ -44,10 +42,8 @@ namespace Logger.Tests
             fileLogger!.Log(LogLevel.Debug, testMessage);
 
             // Assert
-            // Check that the file exists
             Assert.IsTrue(File.Exists(_tempFilePath), "Error: The log file was not created.");
             string logContent = File.ReadAllText(_tempFilePath!);
-            // Check that the file is not empty
             Assert.IsFalse(string.IsNullOrEmpty(logContent), "Error: Log file content is empty.");
         }
 
@@ -66,14 +62,12 @@ namespace Logger.Tests
             string logContent = File.ReadAllText(_tempFilePath!);
             string logLine = logContent.TrimEnd(Environment.NewLine.ToCharArray());
 
-            // Check core components using StringAssert.Contains
             StringAssert.Contains(logLine, TestClassName, "Error: The log entry must contain the class name.");
             StringAssert.Contains(logLine, "Warning", "The log entry must contain the LogLevel.");
             StringAssert.Contains(logLine, testMessage, "Error: The log entry must contain the message.");
 
-            // Check that the log starts with a valid date/time stamp
             string[] parts = logLine.Split(' ');
-            // Check if the Date, Time, AM/PM match the proper format.
+
             Assert.IsTrue(DateTime.TryParse(parts[0] + " " + parts[1] + " " + parts[2], CultureInfo.InvariantCulture, DateTimeStyles.None, out _),
                 "Error: The log entry must start with a valid date format: (MM/dd/yyyy) and valid time format: (HH:mm:ss)");
         }
@@ -87,17 +81,15 @@ namespace Logger.Tests
             const string message1 = "This is the first log entry.";
             const string message2 = "This is the second log entry.";
 
-            // Act: Log message 1 as a Warning and message 2 as an Error message
+            // Act
             fileLogger!.Log(LogLevel.Warning, message1);
             fileLogger.Log(LogLevel.Error, message2);
 
             // Assert
             string[] logLines = File.ReadAllLines(_tempFilePath!);
 
-            // Check that both messages were written
             Assert.AreEqual(2, logLines.Length, "Expected two log lines to be written.");
 
-            // Check message 1 content and its log level
             StringAssert.Contains(logLines[0], "Warning", "First log line must contain Warning level.");
             StringAssert.Contains(logLines[0], message1, "First log line must contain message 1.");
         }
@@ -111,17 +103,14 @@ namespace Logger.Tests
             const string message1 = "First log entry.";
             const string message2 = "Second log entry.";
 
-            // Act: Log message 1 as a Warning and message 2 as an Error message
+            // Act
             fileLogger!.Log(LogLevel.Warning, message1);
             fileLogger.Log(LogLevel.Error, message2);
 
             // Asserts
             string[] logLines = File.ReadAllLines(_tempFilePath!);
 
-            // Check that both messages were written
             Assert.AreEqual(2, logLines.Length, "Expected two log lines to be written.");
-
-            // Check message 2 content and its log level
             StringAssert.Contains(logLines[1], "Error", "Second log line must contain Error level.");
             StringAssert.Contains(logLines[1], message2, "Second log line must contain message 2.");
         }

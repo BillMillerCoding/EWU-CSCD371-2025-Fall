@@ -21,7 +21,6 @@ namespace Logger.Tests
         public void CreateLogger_ReturnsNull_WhenFileLoggerIsNotConfigured()
         {
             // Arrange
-            // LogFactory is initialized but ConfigureFileLogger has NOT been called.
 
             // Act
             var logger = _logFactory.CreateLogger(TestClassName);
